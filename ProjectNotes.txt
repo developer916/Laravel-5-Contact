@@ -1,0 +1,227 @@
+Please look at the tables I specified at the bottom
+
+1.Dashboard
+after login ,user can see this image in the dashboard? or 
+  i have  to make the link in the right menu like this ?
+   Add New Contacts -> contactNewView
+	Search Notes -> notesSearch
+	Search Contact -> contactSearch
+	Add New Company -> companyNew
+	/**Please check header.image**/
+-----------------------------------------------------
+Yes you can use the icons
+-----------------------------------------------------
+
+2. Contact new view :
+  1) what is the related to company ?
+     User can select one from the company list ?
+-----------------------------------------------------
+The related company is a way I am thinking to relate contacts to one company.
+-----------------------------------------------------
+
+ 2) How can we get contact status ?
+-----------------------------------------------------
+No need I have removed
+-----------------------------------------------------
+     can you explain about that ?
+-----------------------------------------------------
+No need I have removed
+-----------------------------------------------------
+
+
+  3) we can  get state only US or you want all world state?
+     If you want all world state, I think we have to check about that.
+-----------------------------------------------------
+No need we will type in for now see table
+-----------------------------------------------------
+  4) I want you explain more for this image (/****contact-new-view-tag.jpg**/)
+3.Contact Main page 
+  1) Can you explain  about the note  tabs ?
+     Type, comm Type, Assigned to , Note status,
+-----------------------------------------------------
+Comm type: is the classification of the notes (Phone Call, Email, Notes)
+Assigned to: Employee assisnged to the note
+type: note type (Sales, Support, Accounting)
+status: select current status of notes(Urgent, Waiting, Closed, Follow up, Take care)
+-----------------------------------------------------
+4. Contact Search
+  1) in here user only can search his uploaded  ?
+-----------------------------------------------------
+They can search all contacts
+-----------------------------------------------------
+  2)What is the search filed ?
+-----------------------------------------------------
+You can select and search any feild in the contacts
+-----------------------------------------------------
+
+5. 	Note seach
+  I want you explain about this (ugent, waiting for reply, take care  ) in more detail 
+-----------------------------------------------------
+You can filter the notes by the type, classification or daterange or status.
+
+6.Project
+  1) When user add zone, where we can see it ?
+-----------------------------------------------------
+Its a the bottom:
+Edit: Zone 1 Direct Space.....
+-----------------------------------------------------
+  2) What is the select type. where we can gt it ?
+Type is direct space or induct
+  3) What is the unit ?
+  -----------------------------------------------------
+Units will
+  -----------------------------------------------------
+  4) Can you explain about this image (/***project-edit-zone.jpg***/)
+-----------------------------------------------------
+This is the zones we are adding for the project.
+-----------------------------------------------------
+
+7. Quote page.
+ 1) Associate project tab , 
+    in here user can select project for this quote. right ?
+-----------------------------------------------------
+Yes quote is based on project
+-----------------------------------------------------
+
+
+Tables:
+
+employee
+    $table->increments('id');
+    $table->string('username');
+    $table->string('password');
+    $table->integer('peopleId');
+    $table->timestamps();
+
+people
+    $table->increments('id');
+    $table->string('titleName')->nullable();
+    $table->string('firstName');
+    $table->string('middleName')->nullable();
+    $table->string('lastName');
+    $table->bigInteger('companyId')->nullable();
+    $table->string('companyName')->nullable();
+    $table->integer('defaultAddressId')->nullable();
+    $table->integer('defaultBilladdressId')->nullable();
+    $table->integer('defaultShipaddressId')->nullable();
+    $table->integer('defaultShipaddressId')->nullable();
+    $table->integer('industryId')->nullable();
+    $table->integer('categoryId')->nullable();
+    $table->integer('typeId')->nullable();
+    $table->string('email')->nullable();
+    $table->string('phone')->nullable();
+    $table->string('mobile')->nullable();
+    $table->string('fax')->nullable();
+    $table->string('statusId')->nullable();
+    $table->boolean('active')->default(1);
+    $table->timestamps();
+
+company
+    $table->increments('id');
+    $table->string('companyName');
+    $table->string('phone')->nullable();
+    $table->string('email')->nullable();
+    $table->string('addressId')->nullable();
+    $table->string('typeId')->nullable();
+    $table->timestamps();
+
+address
+    $table->increments('id');
+    $table->integer('peopleId');
+    $table->string('addressDesc')->nullable();
+    $table->string('address')->nullable();
+    $table->string('addressLine2')->nullable();
+    $table->string('city')->nullable();
+    $table->string('state')->nullable();
+    $table->string('province')->nullable();
+    $table->string('zip')->nullable();
+    $table->string('country')->nullable();
+    $table->string('phone')->nullable();
+    $table->string('email')->nullable();
+    $table->timestamps();
+
+tags
+    $table->increments('id');
+    $table->string('tags');
+    $table->timestamps();
+
+peopleTags
+    $table->integer('peopleId');
+    $table->integer(tagsId');
+    $table->timestamps();
+
+industry
+    $table->increments('id');
+    $table->string('industry');
+    $table->timestamps();
+
+category
+    $table->increments('id');
+    $table->string('category');
+    $table->timestamps();
+
+type
+    $table->increments('id');
+    $table->string('type');
+    $table->timestamps();
+
+notes
+    $table->increments('id');
+    $table->integer('notesTypeId');
+    $table->integer('notesStatusId');
+    $table->integer('notesClassId');
+    $table->integer('employeeId');
+    $table->mediumtext('notes');
+    $table->timestamps();
+
+notesType
+    $table->increments('id');
+    $table->string('notesType');
+    $table->timestamps();
+
+notesStatus
+    $table->increments('id');
+    $table->string('notesStatus');
+    $table->timestamps();
+
+notesClass
+    $table->increments('id');
+    $table->string('notesClassification');
+    $table->timestamps();
+
+quotes
+    $table->increments('id');
+    $table->integer('projectId');
+    $table->text('quoteDesc');
+    $table->timestamps();
+
+project
+    $table->increments('id');
+    $table->string('projectName');
+    $table->string('projectDesc');
+    $table->text('projectNotes');
+    $table->timestamps();
+
+projectZone
+    $table->integer('projectId');
+    $table->integer('projectZoneId');
+    $table->string('ZoneName');
+    $table->integer('projectZoneTypeId');
+    $table->integer('areaWidth');
+    $table->integer('areaLength');
+    $table->integer('areaHeight');
+    $table->integer('areaSquareFoot');
+    $table->integer('AreaUnitId');
+    $table->integer('freshAirVelocity');
+    $table->integer('freshAirVelocityUnitId');
+    $table->integer('exhastAirVelocity');
+    $table->integer('exhastAirVelocityUnitId');
+    $table->integer('freshAir');
+    $table->integer('ductWidth');
+    $table->integer('ductHeight');
+    $table->integer('ductAirVelocity');
+    $table->integer('OutdoorTemp');
+    $table->integer('OutdoorTempUnitId');
+    $table->integer('TargetTemp');
+    $table->integer('TargetTempUnitId');
+    $table->timestamps();
