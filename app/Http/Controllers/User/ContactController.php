@@ -519,9 +519,9 @@ class ContactController extends Controller{
             for($i=0; $i<count($note); $i++){
                 $list .= '<div class="col-md-12 margin-bottom-20 forest-change-note-header">';
                 if(strtoupper($note[$i]->noteCommType->noteCommType)== "PHONE") {
-                    $list .='<div class="panel panel-blue margin-bottom-20">';
+                    $list .='<div class="panel panel-blue margin-bottom-40">';
                 }else if (strtoupper($note[$i]->noteCommType->noteCommType)== "EMAIL") {
-                    $list .='<div class="panel panel-green margin-bottom-20">';
+                    $list .='<div class="panel panel-green margin-bottom-40">';
                 }
                 $list .='<div class="panel-heading forest-panel-heading-note">';
                                   $list .='<h3 class="panel-title forest-panel-title-note">';
@@ -554,9 +554,6 @@ class ContactController extends Controller{
         }
     }
     public function main($id){
-        if ($alert = Session::get('alert')) {
-            $param['alert'] = $alert;
-        }
         $user_id = Session::get('user_id');
         $param['member'] = MembersModel::find($user_id);
         $param['people'] = PeopleModel::find($id);
@@ -589,16 +586,17 @@ class ContactController extends Controller{
             }
         }
         $param['listQuote'] = $listQuote;
+
         $param['pageNo'] = "4";
         $peopleId = $id;
         $note = NoteModel::whereRaw('peopleId=?' , array($peopleId))->get();
         $list = "";
         for($i=0; $i<count($note); $i++){
-            $list .= '<div class="col-md-12 margin-bottom-10 forest-change-note-header">';
+            $list .= '<div class="col-md-12 margin-bottom-20 forest-change-note-header">';
             if(strtoupper($note[$i]->noteCommType->noteCommType)== "PHONE") {
-                $list .='<div class="panel panel-blue margin-bottom-20">';
+                $list .='<div class="panel panel-blue margin-bottom-40">';
             }else if (strtoupper($note[$i]->noteCommType->noteCommType)== "EMAIL") {
-                $list .='<div class="panel panel-green margin-bottom-20">';
+                $list .='<div class="panel panel-green margin-bottom-40">';
             }
             $list .='<div class="panel-heading forest-panel-heading-note">';
             $list .='<h3 class="panel-title forest-panel-title-note">';
@@ -624,6 +622,7 @@ class ContactController extends Controller{
     }
     public function searchMainNote(){
         if(Request::ajax()) {
+
             $searchNoteName = Input::get('searchNoteName');
             $searchType = Input::get('searchType');
             $searchCommType = Input::get('searchCommType');
@@ -650,9 +649,9 @@ class ContactController extends Controller{
                     for($i=0; $i<count($note); $i++){
                         $list .= '<div class="col-md-10 col-md-offset-1 margin-bottom-20 forest-change-note-header">';
                         if(strtoupper($note[$i]->noteCommType->noteCommType)== "PHONE") {
-                            $list .='<div class="panel panel-blue margin-bottom-20">';
+                            $list .='<div class="panel panel-blue margin-bottom-40">';
                         }else if (strtoupper($note[$i]->noteCommType->noteCommType)== "EMAIL") {
-                            $list .='<div class="panel panel-green margin-bottom-20">';
+                            $list .='<div class="panel panel-green margin-bottom-40">';
                         }
                         $list .='<div class="panel-heading forest-panel-heading-note">';
                         $list .='<h3 class="panel-title forest-panel-title-note">';
@@ -679,11 +678,8 @@ class ContactController extends Controller{
                     return Response::json(['result' =>'empty', 'message' =>"This contact don't have note  for your request."]);
                 }
             }
-        }else{
-
         }
     }
-
     public function searchContact(){
         $param['pageNo'] = 5;
         $user_id = Session::get('user_id');
@@ -763,11 +759,9 @@ class ContactController extends Controller{
             $onSearchType = Input::get('onSearchType');
             $onSearchCommType = Input::get('onSearchCommType');
             $onNoteStatus = Input::get('onNoteStatus');
-            $onNoteAssign = Input::get('onNoteAssign');
             $dateRangeFrom = Input::get('dateRangeFrom');
             $dateRangeTo = Input::get('dateRangeTo');
-
-            if ($onSearchNoteName == "" && $onSearchType == "" && $onSearchCommType == "" && $onNoteStatus == "" && $dateRangeFrom == "" && $dateRangeTo == "" && $onNoteAssign == "") {
+            if ($onSearchNoteName == "" && $onSearchType == "" && $onSearchCommType == "" && $onNoteStatus == "" && $dateRangeFrom == "" && $dateRangeTo == "") {
                 $note = NoteModel::all();
             } else {
                 $query = NoteModel::whereRaw(true);
@@ -782,9 +776,6 @@ class ContactController extends Controller{
                 }
                 if ($onNoteStatus != "") {
                     $query->where('notesStatusId', '=', $onNoteStatus);
-                }
-                if($onNoteAssign != ""){
-                    $query->where('notesAssignId', '=', $onNoteAssign);
                 }
                 if ($dateRangeFrom != "") {
                     $query->where('created_at', '>=', $dateRangeFrom);
@@ -805,8 +796,6 @@ class ContactController extends Controller{
                         $list .='<div class="panel panel-green margin-bottom-40">';
                     }
                     $list .='<div class="panel-heading forest-panel-heading-note">';
-                    $list .='<div class="row">';
-                    $list .='<div class="col-md-8">';
                     $list .='<h3 class="panel-title forest-panel-title-note">';
                     if(strtoupper($note[$i]->noteCommType->noteCommType)== "PHONE") {
                         $list .='<img src="/images/Modern-Phone-icon.jpg" style="width:30px; height:30px;">';
@@ -818,12 +807,7 @@ class ContactController extends Controller{
                     $list .='<span>('. substr($note[$i]->updated_at,0,16) .')</span>';
                     $list .='<span>('. ucfirst($note[$i]->noteStatus->notesStatus ) .')</span>';
                     $list .=' </h3>
-                               </div>';
-                    $list .='<div class="col-md-4 text-right">';
-                    $list .='<a href="'.URL::route("user.contact.main",$note[$i]->peopleId).'" style="color:white; margin-right:20px">Contact</a>';
-                    $list .= '</div>
-                            </div>
-                        </div>
+                                </div>
                                 <div class="panel-body">';
                     $list .=$note[$i]->notes;
                     $list .=' </div>
